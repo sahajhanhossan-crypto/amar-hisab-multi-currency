@@ -6,10 +6,8 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import StringProperty, NumericProperty, DictProperty
 from kivy.core.window import Window
 
-# Window size setup
 Window.size = (360, 640)
 
-# Multi-language text dictionary (All in English)
 TRANSLATIONS = {
     'en': {
         'app_title': 'Amar Hisab - Multi Currency',
@@ -28,7 +26,6 @@ TRANSLATIONS = {
     }
 }
 
-# Database initialization
 def init_db():
     conn = sqlite3.connect('amar_hisab.db')
     cursor = conn.cursor()
@@ -47,7 +44,6 @@ def init_db():
 
 init_db()
 
-# KV User Interface Design
 KV = '''
 ScreenManager:
     PinScreen:
@@ -99,7 +95,6 @@ ScreenManager:
     BoxLayout:
         orientation: 'vertical'
         
-        # Header Section
         BoxLayout:
             size_hint_y: 0.1
             canvas.before:
@@ -114,7 +109,6 @@ ScreenManager:
                 bold: True
                 color: 1, 1, 1, 1
 
-        # Balance Section
         BoxLayout:
             orientation: 'vertical'
             size_hint_y: 0.25
@@ -129,7 +123,6 @@ ScreenManager:
                 bold: True
                 color: 0.2, 0.8, 0.4, 1
 
-        # Input Form Section
         BoxLayout:
             orientation: 'vertical'
             size_hint_y: 0.65
@@ -168,7 +161,6 @@ ScreenManager:
 class PinScreen(Screen):
     def verify_pin(self):
         user_pin = self.ids.pin_input.text
-        # Default Security PIN
         if user_pin == "1234": 
             self.manager.current = 'main'
         else:
@@ -190,7 +182,6 @@ class MainScreen(Screen):
             conn.commit()
             conn.close()
             
-            # Reset input fields
             self.ids.amount.text = ''
             self.ids.category.text = ''
             app.update_balance()
@@ -205,7 +196,6 @@ class AmarHisabApp(App):
         self.update_balance()
         return Builder.load_string(KV)
 
-    # Automatic system language detection
     def detect_language(self):
         try:
             loc = locale.getdefaultlocale()[0]
